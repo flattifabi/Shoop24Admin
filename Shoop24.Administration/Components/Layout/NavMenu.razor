@@ -26,6 +26,41 @@
                     </a>
                 </div>
             </div>
+            <div @onclick="ToogleServices" class="fro-list-item-group @(_servicesCollapsed ? "fro-list-item-group--collapsed" : "")">
+                <div class="fro-list-item">
+                    <i class="fro-list-item__icon fro-icon fro-icon--fixed">display-code</i>
+                    <div class="fro-list-item__label">Dienste verwalten</div>
+                    <i class="fro-list-item__after fro-icon">@(_servicesCollapsed ? "angle-down" : "angle-up")</i>
+                </div>
+
+                <div class="fro-list-item-group__subitems">
+                    <a href="/usermanagement" class="fro-list-item fro-list-item--subitem">
+                        <div class="fro-list-item__label">Scraper</div>
+                    </a>
+                    <a href="/businessaccountmanagement" class="fro-list-item fro-list-item--subitem">
+                        <div class="fro-list-item__label">Server</div>
+                    </a>
+                </div>
+            </div>
+            <div @onclick="ToogleHosting" class="fro-list-item-group @(_hostingCollapsed ? "fro-list-item-group--collapsed" : "")">
+                <div class="fro-list-item">
+                    <i class="fro-list-item__icon fro-icon fro-icon--fixed">earth-americas</i>
+                    <div class="fro-list-item__label">Hosting</div>
+                    <i class="fro-list-item__after fro-icon">@(_hostingCollapsed ? "angle-down" : "angle-up")</i>
+                </div>
+
+                <div class="fro-list-item-group__subitems">
+                    <a href="/usermanagement" class="fro-list-item fro-list-item--subitem">
+                        <div class="fro-list-item__label">Webseiten</div>
+                    </a>
+                    <a href="/businessaccountmanagement" class="fro-list-item fro-list-item--subitem">
+                        <div class="fro-list-item__label">Verwaltung</div>
+                    </a>
+                    <a href="/businessaccountmanagement" class="fro-list-item fro-list-item--subitem">
+                        <div class="fro-list-item__label">SEO</div>
+                    </a>
+                </div>
+            </div>
         </nav>
     </div>
 
@@ -45,8 +80,10 @@
 </div>
 
 @code {
-    bool _userManagementCollapsed = false;
+    bool _userManagementCollapsed = true;
+    bool _servicesCollapsed = true;
     bool _isCollapsed = false;
+    bool _hostingCollapsed = true;
     
     async void ToggleCollapse()
     {
@@ -57,6 +94,17 @@
     private async Task ToggleUserManagement()
     {
         _userManagementCollapsed = !_userManagementCollapsed;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task ToogleServices()
+    {
+        _servicesCollapsed = !_servicesCollapsed;
+        await InvokeAsync(StateHasChanged);
+    }
+    private async Task ToogleHosting()
+    {
+        _hostingCollapsed = !_hostingCollapsed;
         await InvokeAsync(StateHasChanged);
     }
 }
