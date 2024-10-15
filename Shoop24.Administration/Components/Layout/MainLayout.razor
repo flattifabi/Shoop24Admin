@@ -1,0 +1,90 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@inherits LayoutComponentBase
+
+@inject IJSRuntime JsRuntime
+@inject NavigationManager NavManager
+
+<MudDialogProvider CloseOnEscapeKey="true"></MudDialogProvider>
+<MudSnackbarProvider></MudSnackbarProvider>
+<MudThemingProvider/>
+<MudLayout>
+    <header class="fro-header fro-header--with-border" style="z-index: 2; position: fixed; top: 0; width: 100%">
+        <div class="fro-header__left-wrapper">
+            <a href="">
+                <img
+                    class="fro-header__logo fro-header__logo--desktop"
+                    src="css/images/logo.png"
+                    alt="shoop24-logo"
+                />
+                <img
+                    class="fro-header__logo fro-header__logo--mobile"
+                    src="css/images/logo.png"
+                    alt="shoop24-logo"
+                />
+            </a>
+            <div class="fro-header__title">Shoop24 Console</div>
+        </div>
+        <div class="fro-header__menu-wrapper">
+        </div>
+        <div
+            class="fro-header__search-wrapper fro-input-group fro-input-group--x-small"
+        >
+            <i class="fro-icon">magnifying-glass</i>
+            <input
+                type="search"
+                class="fro-input fro-input--fluid fro-input-group__fro-input"
+                placeholder="Search"
+            />
+            <button
+                class="fro-button fro-button--x-small fro-button--no-min-width fro-button--pill fro-button--icon-only fro-input-group__fro-button"
+            >
+                <i class="fro-icon">xmark</i>
+            </button>
+        </div>
+        <div class="fro-header__icon-wrapper">
+            <button @onclick="ToggleDarkMode"
+                    class="fro-button fro-button--neutral fro-button--no-min-width fro-button--pill fro-button--icon-only"
+            >
+                <i class="fro-icon">@(_isDarkMode ? "sun-bright" : "moon")</i>
+            </button>
+            <div class="fro-avatar fro-avatar--small">
+                <div class="fro-avatar__content">
+                    <img class="fro-avatar__image" src="https://mysite.fronius.com:443/User Photos/Profilbilder/@(_username.ToLower().Replace('.', '_'))_MThumb.jpg" alt="@_username" />
+                </div>
+            </div>
+        </div>
+    </header>
+    <NavMenu/>
+    <MudMainContent Class="mt-16 pa-4" Style="margin-left: 40px;">
+        <MudContainer>
+            @Body
+        </MudContainer>
+    </MudMainContent>
+</MudLayout>
+
+<script src="js/index.js"></script>
+
+@code {
+    bool _isDarkMode = false;
+    string _username = "";
+
+    protected override async Task OnAfterRenderAsync(bool firstRender)
+    {
+        if (firstRender)
+        {
+            _isDarkMode = await JsRuntime.InvokeAsync<bool>("GetDarkMode");
+            if (_isDarkMode)
+            {
+                await ToggleDarkMode();
+            }
+            StateHasChanged();
+        }
+    }
+
+    async Task ToggleDarkMode()
+    {
+        _isDarkMode = !_isDarkMode;
+
+        await JsRuntime.InvokeVoidAsync("ToggleDarkMode");
+    }
+}

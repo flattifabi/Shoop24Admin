@@ -1,0 +1,66 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@inject AuthenticationStateProvider _authState;
+@using System.Security.Claims
+
+<div class="fro-sidebar @(_isCollapsed ? "fro-sidebar--collapsed" : "")" style="z-index: 1; position: fixed; top: 4%; height: 95%; padding-top: 30px;">
+    <div class="fro-sidebar__top">
+        <nav class="fro-sidebar__navigation">
+            <a class="fro-list-item" href="/api_dashboard">
+                <i class="fro-icon fro-icon--fixed fro-list-item__icon">chart-line-down</i>
+                <div class="fro-list-item__label">Übersicht</div>
+            </a>
+
+            <div @onclick="ToggleUserManagement" class="fro-list-item-group @(_userManagementCollapsed ? "fro-list-item-group--collapsed" : "")">
+                <div class="fro-list-item">
+                    <i class="fro-list-item__icon fro-icon fro-icon--fixed">user</i>
+                    <div class="fro-list-item__label">Nutzer verwaltung</div>
+                    <i class="fro-list-item__after fro-icon">@(_userManagementCollapsed ? "angle-down" : "angle-up")</i>
+                </div>
+
+                <div class="fro-list-item-group__subitems">
+                    <a href="/" class="fro-list-item fro-list-item--subitem">
+                        <div class="fro-list-item__label">Nutzer</div>
+                    </a>
+                    <a href="/" class="fro-list-item fro-list-item--subitem">
+                        <div class="fro-list-item__label">Geschäftskonten</div>
+                    </a>
+                </div>
+            </div>
+
+            
+
+           
+        </nav>
+    </div>
+
+    <footer class="fro-sidebar__footer">
+        <button @onclick="ToggleCollapse"
+                class="fro-button fro-button--small fro-button--pill fro-button--icon-only fro-button--no-min-width fro-sidebar__footer-toggle">
+            @if (!_isCollapsed)
+            {
+                <i class="fro-icon fro-icon--fixed">arrow-left-to-line</i>
+            }
+            else
+            {
+                <i class="fro-icon fro-icon--fixed">arrow_right_from_line</i>
+            }
+        </button>
+    </footer>
+</div>
+
+@code {
+    bool _userManagementCollapsed = false;
+    bool _isCollapsed = false;
+    
+    async void ToggleCollapse()
+    {
+        _isCollapsed = !_isCollapsed;
+        await InvokeAsync(StateHasChanged);
+    }
+
+    private async Task ToggleUserManagement()
+    {
+        _userManagementCollapsed = !_userManagementCollapsed;
+        await InvokeAsync(StateHasChanged);
+    }
+}

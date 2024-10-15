@@ -1,0 +1,47 @@
+/*
+	This CSS file matches the color scheme from MudBlazor to Bootstrap when utilized for authentication.
+	The file remains available at all times for demonstration purposes,
+	but it is exclusively employed in the 'App.razor' component when authentication is enabled.
+*/
+
+@import 'css/ds.css';
+
+.container {
+    margin-top: 20px;
+    width: 80%;
+}
+
+.fro-dark-background {
+    background-color: var(--fro-background-grey);
+}
+
+.dialog-wraper {
+    z-index: 6;
+    left: 0;
+    top: 0;
+    height: 200vh;
+    max-height: 200vh;
+    width: 100vw;
+    overflow: hidden;
+    position: fixed;
+    display: block;
+}
+
+.mud-dialog-title {
+    border: none;
+    box-shadow: none;
+    visibility: hidden;
+}
+
+.mud-dialog-custom {
+    visibility: hidden;
+}
+
+.mud-dialog-content {
+    padding: 0px;
+}
+
+.h500 {
+    min-height: 500px;
+    margin-top: 15px;
+}
