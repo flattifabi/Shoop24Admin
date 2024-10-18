@@ -10,4 +10,8 @@ public class UserResolver : ResolverBase
     {
 
     }
+    public async Task<string?> GetUser(string username)
+    {
+        
+    }
 }
