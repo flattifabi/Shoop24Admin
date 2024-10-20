@@ -2,6 +2,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using Microsoft.AspNetCore.Components.Web;
 using MudBlazor;
 using Shoop24.Core.Enums;
 using Shoop24.Core.Models;
@@ -28,7 +29,6 @@ namespace Shoop24.Administration.Components.Pages.Management
                 _snackbar.Add($"Fehler beim laden der Produkte ({result.ErrorCode})", Severity.Error);
                 return;
             }
-
             _foundProducts = result.Result;
             await InvokeAsync(StateHasChanged);
         }
