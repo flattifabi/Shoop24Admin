@@ -20,7 +20,7 @@ namespace Shoop24.Administration.Components.Pages.Management
         {
             
         }
-
+        
         public async Task ExecuteSearchCommand()
         {
             var result = await _client.GetProductResolver().GetProductsBySearchValueAsyncAsync(_searchValue);
@@ -31,6 +31,11 @@ namespace Shoop24.Administration.Components.Pages.Management
             }
             _foundProducts = result.Result;
             await InvokeAsync(StateHasChanged);
+        }
+
+        private async Task EditProduct(Product product)
+        {
+            
         }
     }
 }

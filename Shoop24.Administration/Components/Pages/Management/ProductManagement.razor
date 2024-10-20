@@ -1,4 +1,5 @@
 ﻿@page "/productmanagement"
+@using Shoop24.Administration.Components.Dialogs
 
 <MudStack AlignItems="AlignItems.Center" Justify="Justify.Center" Row>
     <MudTextField @bind-Value="_searchValue" Label="Suchwert" Variant="Variant.Filled"></MudTextField>
@@ -14,7 +15,7 @@
                     <MudImage Src="@product.ImageUrl" Elevation="25" Style="margin-top: 15px;" Height="125" ObjectFit="ObjectFit.Cover" Width="120" Class="rounded-lg"/>
                     <MudText Typo="Typo.subtitle1" Style="margin-top: 3px;">@product.Name</MudText>
                     <MudStack Row>
-                        <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" aria-label="edit"></MudIconButton>
+                        <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" @onclick="() => EditProduct(product)" aria-label="edit"></MudIconButton>
                         <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" aria-label="delete"/>
                     </MudStack>
                 </MudStack>
