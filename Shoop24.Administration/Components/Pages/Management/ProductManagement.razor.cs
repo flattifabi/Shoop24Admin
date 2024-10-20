@@ -119,5 +119,27 @@ namespace Shoop24.Administration.Components.Pages.Management
                 await InvokeAsync(StateHasChanged);
             }
         }
+
+        private async Task ShowPriceHistory(Product product)
+        {
+            var settings = new DialogOptions()
+            {
+                FullWidth = true,
+                MaxWidth = MaxWidth.Large
+            };
+            var historyResult = await _client.GetProductResolver().GetProductPriceHistoryAsync(product.Id);
+            if (historyResult.ErrorCode != ShoopErrorCode.NoError)
+            {
+                _snackbar.Add($"Preishistorie konnte für {product.Name} nicht geladen werden", Severity.Error);
+                return;
+            }
+            var dialogParameters = new DialogParameters()
+            {
+                ["Message"] = $"Preis Historie für das Produkt {product.Name}",
+                ["Changes"] = historyResult.Result.ToList() ?? new List<PriceChange>()
+            };
+            var dialogReference = await _dialogService.ShowAsync<ProductHistoryDialog>("", dialogParameters);
+            var result = await dialogReference.Result;
+        }
     }
 }

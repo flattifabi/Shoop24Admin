@@ -6,7 +6,7 @@
 
 <MudDialogProvider CloseOnEscapeKey="true"></MudDialogProvider>
 <MudSnackbarProvider></MudSnackbarProvider>
-<MudThemeProvider Theme="customTheme"/>
+<MudThemeProvider @bind-IsDarkMode="@_isDarkMode" Theme="customTheme"/>
 <MudLayout>
     <header class="fro-header fro-header--with-border" style="z-index: 2; position: fixed; top: 0; width: 100%">
         <div class="fro-header__left-wrapper">
@@ -76,6 +76,7 @@
             if (_isDarkMode)
             {
                 await ToggleDarkMode();
+                await JsRuntime.InvokeVoidAsync("ToggleDarkMode");
             }
             StateHasChanged();
         }
@@ -93,6 +94,10 @@
         PaletteLight = new PaletteLight()
         {
             Primary = Colors.Orange.Default,
+        },
+        PaletteDark = new PaletteDark()
+        {
+            Primary = Colors.Orange.Default
         }
     };
 

@@ -36,6 +36,7 @@ else
 
                         <MudStack Row>
                             <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" @onclick="() => EditProduct(product)" aria-label="edit"></MudIconButton>
+                            <MudIconButton Icon="@Icons.Material.Filled.History" Color="Color.Primary" @onclick="() => ShowPriceHistory(product)" aria-label="history"/>
                             <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" @onclick="() => DeleteProduct(product)" aria-label="delete"/>
                         </MudStack>
                     </MudStack>

@@ -1,0 +1,70 @@
+@using Shoop24.Core.Models
+
+<MudDialog Style="background: transparent; box-shadow: none">
+	<DialogContent>
+		@if (_isDialogOpen)
+		{
+			<div class="fro-dialog__panel">
+				<i class="fro-dialog__icon fro-icon" style="color: orange;">circle-info</i>
+				<header class="fro-dialog__header mb-5">@MudDialog.Title</header>
+				<article class="fro-dialog__body">
+					<h5>@Message</h5>
+					
+					<MudDivider></MudDivider>
+					@foreach (var change in Changes)
+					{
+						<MudStack Spacing="1">
+							<MudText Typo="Typo.h6">@change.RecordDate.ToString("dd.MM.yyyy")</MudText>
+							<MudStack Row>
+								<MudText>@change.Price €</MudText>
+							</MudStack>
+						</MudStack>
+						<MudDivider></MudDivider>
+					}						
+					
+					
+				</article>
+				<footer class="fro-dialog__footer">
+					
+					<button @onclick="Submit" style="background-color: orange;"
+					        class="fro-button fro-button--primary fro-button--no-min-width fro-button--small">
+						Ok
+					</button>
+				</footer>
+			</div>
+		}
+	</DialogContent>
+</MudDialog>
+
+@code {
+	private bool _isDialogOpen = true;
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public string Message { get; set; }
+    [Parameter]
+    public List<PriceChange> Changes { get; set; }
+
+    private string _endpoint = string.Empty;
+    private string _title = string.Empty;
+
+    protected override Task OnInitializedAsync()
+    {
+	    return Task.CompletedTask;
+    }
+
+    private async Task Submit()
+    {
+	    await InvokeAsync(StateHasChanged);
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    private async Task Cancel()
+    {
+	    _isDialogOpen = false;
+		MudDialog.StateHasChanged();
+		MudDialog.Dispose();
+	    await InvokeAsync(StateHasChanged);
+        MudDialog.Cancel();
+    }
+}
