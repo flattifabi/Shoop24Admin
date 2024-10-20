@@ -5,5 +5,5 @@ namespace Shoop24.Administration.Services;
 
 public static class ShoopFactory
 {
-    //ASD
+
 }

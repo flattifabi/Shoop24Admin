@@ -9,6 +9,8 @@
   <ItemGroup>
     <PackageReference Include="MudBlazor" Version="8.0.0-preview.1" />
     <PackageReference Include="RestSharp" Version="112.1.0" />
+    <PackageReference Include="Shoop24.Library.ClientApi" Version="2.0.1" />
+    <PackageReference Include="Shoop24.Utils.Core" Version="8.0.1" />
   </ItemGroup>
 
   <ItemGroup>

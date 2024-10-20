@@ -31,7 +31,7 @@ public class ResolverBase
     /// <param name="request">Build the RestRequest (GEt, POST, aso)</param>
     /// <returns>Task<list type=""> awaitable</list></returns>
     /// <exception cref="Exception"></exception>
-    public async Task<T?> ReturnAsyncResult<T>(object value, RestRequest request)
+    public async Task<T?> ReturnAsyncResult<T>(RestRequest request)
     {
         if(_client == null)
             throw new Exception("Client is not initialized");
@@ -57,8 +57,8 @@ public class ResolverBase
     /// <param name="value"></param>
     /// <param name="request"></param>
     /// <returns></returns>
-    public T? ReturnResult<T>(object value, RestRequest request)
+    public T? ReturnResult<T>(RestRequest request)
     {
-        return ReturnAsyncResult<T>(value, request).GetAwaiter().GetResult();
+        return ReturnAsyncResult<T>(request).GetAwaiter().GetResult();
     }
 }
