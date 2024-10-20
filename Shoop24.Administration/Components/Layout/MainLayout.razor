@@ -6,7 +6,7 @@
 
 <MudDialogProvider CloseOnEscapeKey="true"></MudDialogProvider>
 <MudSnackbarProvider></MudSnackbarProvider>
-<MudThemingProvider/>
+<MudThemeProvider/>
 <MudLayout>
     <header class="fro-header fro-header--with-border" style="z-index: 2; position: fixed; top: 0; width: 100%">
         <div class="fro-header__left-wrapper">
@@ -57,7 +57,10 @@
     <NavMenu/>
     <MudMainContent Class="mt-16 pa-4" Style="margin-left: 40px;">
         <MudContainer>
-            @Body
+            
+            <div style="margin:50px">
+                @Body
+            </div>
         </MudContainer>
     </MudMainContent>
 </MudLayout>
