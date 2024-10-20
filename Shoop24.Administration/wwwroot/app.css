@@ -29,6 +29,7 @@ body {
     overflow: hidden;
     position: fixed;
     display: block;
+    background-color: transparent;
 }
 
 .mud-dialog-title {

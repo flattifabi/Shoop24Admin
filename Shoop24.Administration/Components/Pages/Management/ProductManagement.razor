@@ -1,25 +1,47 @@
 ﻿@page "/productmanagement"
 @using Shoop24.Administration.Components.Dialogs
 
-<MudStack AlignItems="AlignItems.Center" Justify="Justify.Center" Row>
-    <MudTextField @bind-Value="_searchValue" Label="Suchwert" Variant="Variant.Filled"></MudTextField>
-    <MudIconButton Icon="@Icons.Material.Filled.Search" @onclick="() => ExecuteSearchCommand()" aria-label="search" />
-</MudStack>
+<MudPaper Style="padding: 15px; margin-bottom: 20px;">
+    <MudStack AlignItems="AlignItems.Center" Justify="Justify.Center" Row>
+        <MudTextField @bind-Value="_searchValue" Label="Suchwert" Variant="Variant.Text"></MudTextField>
+        <MudIconButton Icon="@Icons.Material.Filled.Search" @onclick="() => ExecuteSearchCommand()" aria-label="search" />
+    </MudStack>
+</MudPaper>
 
-<MudGrid Spacing="3" Justify="Justify.FlexStart">
-    @foreach (var product in _foundProducts)
-    {
-        <MudItem>
-            <MudPaper Height="220px" Width="160px">
-                <MudStack AlignItems="AlignItems.Center" Style="margin: 5px;" Spacing="0">
-                    <MudImage Src="@product.ImageUrl" Elevation="25" Style="margin-top: 15px;" Height="125" ObjectFit="ObjectFit.Cover" Width="120" Class="rounded-lg"/>
-                    <MudText Typo="Typo.subtitle1" Style="margin-top: 3px;">@product.Name</MudText>
-                    <MudStack Row>
-                        <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" @onclick="() => EditProduct(product)" aria-label="edit"></MudIconButton>
-                        <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" aria-label="delete"/>
+@if (_isLoading)
+{
+    <MudStack AlignItems="AlignItems.Center">
+        <MudImage Src="Shoop24-Loader-Transparent.gif" Height="250"/>
+    </MudStack>
+}
+else
+{
+    <MudGrid Spacing="3" Justify="Justify.FlexStart">
+        @foreach (var product in _foundProducts)
+        {
+            <MudItem>
+                <MudPaper Height="220px" Width="160px">
+                    <MudStack AlignItems="AlignItems.Center" Style="margin: 5px;" Spacing="0">
+                        <MudImage Src="@product.ImageUrl" Elevation="25" Style="margin-top: 15px;" Height="125" ObjectFit="ObjectFit.Cover" Width="120" Class="rounded-lg"/>
+                        <MudText Typo="Typo.subtitle1" Style="margin-top: 3px;">
+                            @if (product.Name.Length > 12)
+                            {
+                                @(product.Name.Substring(0, 10) + "...")
+                            }
+                            else
+                            {
+                                @product.Name
+                            }
+                        </MudText>
+
+                        <MudStack Row>
+                            <MudIconButton Icon="@Icons.Material.Filled.Edit" Color="Color.Primary" @onclick="() => EditProduct(product)" aria-label="edit"></MudIconButton>
+                            <MudIconButton Icon="@Icons.Material.Filled.Delete" Color="Color.Error" aria-label="delete"/>
+                        </MudStack>
                     </MudStack>
-                </MudStack>
-            </MudPaper>
-        </MudItem>
-    }
-</MudGrid>
+                </MudPaper>
+            </MudItem>
+        }
+    </MudGrid>
+}
+

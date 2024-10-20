@@ -1,129 +1,82 @@
 @using Shoop24.Core.Models
-@using System.Globalization
-@using System.Net
-<MudDialog Style="backdrop-filter: blur(4px);
-                      -webkit-backdrop-filter: blur(4px);
-                      -moz-backdrop-filter: blur(4px);">
-    <TitleContent></TitleContent>
-    <DialogContent>
-        <MudStack AlignItems="AlignItems.Center">
-            <MudText Typo="Typo.subtitle1">@Message</MudText>
-            @if (Product.IsProgressing)
-            {
-                <MudStack AlignItems="AlignItems.Center">
-                    <MudProgressCircular Indeterminate="true"></MudProgressCircular>
-                </MudStack>
-            }
-            else
-            {
-                @if (_isUploadInProgress)
-                {
-                    <MudPaper Width="332" Height="250">
-                        <MudGrid Justify="Justify.Center">
-                            <MudProgressCircular Indeterminate="true"></MudProgressCircular>
-                        </MudGrid>
-                    </MudPaper>
-                }
-                else
-                {
-                    @if (string.IsNullOrEmpty(Product.ImageUrl))
-                    {
-                        <MudImage Src="https://developers.elementor.com/docs/assets/img/elementor-placeholder-image.png" Width="332" Height="250" Alt="Swedish Farm House" Elevation="25" Class="rounded-lg ma-4" OnClick="TriggerFileUpload"/>   
-                    }
-                    else
-                    {
-                        <MudImage Src="@Product.ImageUrl" Width="332" Height="250" Alt="Swedish Farm House" Elevation="25" Class="rounded-lg ma-4" OnClick="TriggerFileUpload"/>
-                    }
-                }
-            }
-            
-            
-            <div class="input_field">
-                                                <label for="namefield">Productname</label>
-                                                <input type="text" name="emailField" @bind-value="Product.Name" style="background-color: #ededed; width: 85vw;" id="namefield" required/>
-                                            </div>
-            <div class="input_field">
-                <label for="emailField">Produktbeschreibung</label>
-                <input type="text" name="emailField" @bind-value="Product.Description" style="background-color: #ededed; width: 85vw;" id="emailField" required/>
-            </div>
-            <div class="input_field">
-                            <label for="emailField">Preis (z.B 9,98)</label>
-                            <input type="text" name="emailField" @bind-value="_priceText" style="background-color: #ededed; width: 85vw;" id="emailField" required/>
-                        </div>
-        </MudStack>
-    </DialogContent>
-    <DialogActions>
-        <MudStack Row>
-            <MudStack Row="true" AlignItems="AlignItems.Center" Justify="Justify.FlexStart" Class="mb-2">
-                <MudButton Variant="Variant.Outlined" OnClick="Ok" Color="Color.Warning" Class="pa-2" Style="border-radius: 12px; border-color: #FFA500; background-color:#F5F5F5;">
-                    <MudStack Row>
-                        <MudText Typo="Typo.body2">Ok</MudText>
-                    </MudStack>
-                </MudButton>
-                <MudButton Variant="Variant.Outlined" OnClick="Cancel" Color="Color.Error" Class="pa-2" Style="border-radius: 12px; border-color: #FFA500; background-color:#F5F5F5;">
-                    <MudStack Row>
-                        <MudText Typo="Typo.body2">Abbrechen</MudText>
-                    </MudStack>
-                </MudButton>
-            </MudStack>
-            </MudStack>
-    </DialogActions>
-</MudDialog>
-@code {
-    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
-    private string _emailField = string.Empty;
-    [Parameter] public string Message { get; set; } = string.Empty;
-    [Parameter] public Product Product { get; set; } = new Product();
-    private string _priceText = string.Empty;
 
-    /// <inheritdoc />
+<MudDialog Style="background: transparent; box-shadow: none">
+	<DialogContent>
+		@if (_isDialogOpen)
+		{
+			<div class="fro-dialog__panel">
+				<i class="fro-dialog__icon fro-icon" style="color: orange;">circle-info</i>
+				<header class="fro-dialog__header mb-5">@MudDialog.Title</header>
+				<article class="fro-dialog__body">
+					<h5>@Message</h5>
+							
+					
+					<MudImage Src="@Product.ImageUrl" Width="200" Height="150" Alt="Swedish Farm House" Elevation="25" Class="rounded-lg ma-4"/>
+                    						
+					<div class="fro-input-group" style="margin-top: 5px;">
+						<input
+							type="text"
+							name="productName"
+							id="productName"
+							class="fro-input fro-input-group__fro-input"
+							placeholder="Produkt Name"
+							@bind-value="@Product.Name"/>
+					</div>
+					<div class="fro-input-group" style="margin-top: 5px;">
+                    						<input
+                    							type="text"
+                    							name="productDesc"
+                    							id="produceDesc"
+                    							class="fro-input fro-input-group__fro-input"
+                    							placeholder="Produkt Beschreibung"
+                    							@bind-value="@Product.Description"/>
+                    					</div>
+					
+				</article>
+				<footer class="fro-dialog__footer">
+					<button @onclick="Cancel"
+					        class="fro-button fro-button--secondary fro-button--no-min-width fro-button--small">
+						Nein
+					</button>
+					<button @onclick="Submit" style="background-color: orange;"
+					        class="fro-button fro-button--primary fro-button--no-min-width fro-button--small">
+						Ja
+					</button>
+				</footer>
+			</div>
+		}
+	</DialogContent>
+</MudDialog>
+
+@code {
+	private bool _isDialogOpen = true;
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public string Message { get; set; }
+    [Parameter]
+    public Product Product { get; set; }
+
+    private string _endpoint = string.Empty;
+    private string _title = string.Empty;
+
     protected override Task OnInitializedAsync()
     {
-        _priceText = Product.Price.ToString(CultureInfo.InvariantCulture);
-        return Task.CompletedTask;
+	    return Task.CompletedTask;
     }
 
-    private Task Cancel()
+    private async Task Submit()
     {
-        MudDialog.Cancel();
-        return Task.CompletedTask;
-    }
-
-    private Task Ok()
-    {
-        Product.Price = ParsePrice(_priceText);
+	    await InvokeAsync(StateHasChanged);
         MudDialog.Close(DialogResult.Ok(Product));
-        return Task.CompletedTask;
     }
 
-    private bool _isUploadInProgress = false;
-    private async Task<string> ConvertToBase64Async(IBrowserFile file)
+    private async Task Cancel()
     {
-        using (var memoryStream = new MemoryStream())
-        {
-            long maxAllowedSize = 1024 * 1024 * 15;
-            await file.OpenReadStream(maxAllowedSize).CopyToAsync(memoryStream);
-        
-            byte[] fileBytes = memoryStream.ToArray();
-            string base64String = Convert.ToBase64String(fileBytes);
-            return base64String;
-        }
+	    _isDialogOpen = false;
+		MudDialog.StateHasChanged();
+		MudDialog.Dispose();
+	    await InvokeAsync(StateHasChanged);
+        MudDialog.Cancel();
     }
-    public decimal ParsePrice(string input)
-    {
-        if (string.IsNullOrWhiteSpace(input))
-            return 0;
-        string cleanInput = input.Replace(" ", "").Replace("€", "");
-        cleanInput = cleanInput.Replace(',', '.');
-        
-        if (decimal.TryParse(cleanInput, NumberStyles.Any, CultureInfo.InvariantCulture, out decimal result))
-        {
-            return result;
-        }
-        else
-        {
-            return 0;
-        }
-    }
-
 }
