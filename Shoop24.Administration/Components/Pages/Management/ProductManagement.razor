@@ -1,0 +1,6 @@
+﻿@page "/productmanagement"
+
+<MudStack AlignItems="AlignItems.Center" Justify="Justify.Center" Row>
+    <MudTextField @bind-Value="_searchValue" Label="Suchwert" Variant="Variant.Filled"></MudTextField>
+    <MudIconButton Icon="@Icons.Material.Filled.Search" @onclick="() => ExecuteSearchCommand()" aria-label="search" />
+</MudStack>
