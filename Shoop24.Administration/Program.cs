@@ -1,6 +1,7 @@
 using MudBlazor;
 using MudBlazor.Services;
 using Shoop24.Administration.Components;
+using ShoopCommunication;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,10 +9,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
 
-
 builder.Services.AddMudServices();
 builder.Services.AddMudBlazorDialog();
 builder.Services.AddSignalR();
+builder.Services.AddScoped<ShoopClient>(sp => new ShoopClient(null));
 builder.Services.AddMudBlazorSnackbar(o =>
 {
     o.NewestOnTop = true;

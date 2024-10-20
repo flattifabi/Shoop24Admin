@@ -1,5 +1,4 @@
 ﻿using Microsoft.AspNetCore.Components;
-using Shoop24.Administration.Services;
 using ShoopCommunication;
 using System;
 using System.Collections.Generic;
@@ -9,6 +8,8 @@ namespace Shoop24.Administration.Components.Pages.Management
 {
     public partial class UserManagement : ComponentBase
     {
+        /* Ready for use */
+        [Inject] private ShoopClient _client { get; set; }
         public string _searchInput = string.Empty;
         
         public UserManagement() 
