@@ -6,6 +6,10 @@
 
 @import 'css/ds.css';
 
+body {
+    font-family: var(--fro-font-rational) !important;
+}
+
 .container {
     margin-top: 20px;
     width: 80%;

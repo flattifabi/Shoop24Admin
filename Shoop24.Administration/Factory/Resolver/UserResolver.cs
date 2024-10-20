@@ -6,7 +6,6 @@ namespace Shoop24.Administration.Services.Resolver;
 
 public class UserResolver : ResolverBase
 {
-
     public UserResolver()
     {
         GetClient();
