@@ -1,0 +1,60 @@
+@using Shoop24.Core.Models
+
+<MudDialog Style="background: transparent; box-shadow: none">
+	<DialogContent>
+		@if (_isDialogOpen)
+		{
+			<div class="fro-dialog__panel">
+				<i class="fro-dialog__icon fro-icon" style="color: orange;">circle-info</i>
+				<header class="fro-dialog__header mb-5">@MudDialog.Title</header>
+				<article class="fro-dialog__body">
+					<h5>Frage</h5>
+					
+					<p>@Message</p>
+					
+				</article>
+				<footer class="fro-dialog__footer">
+					<button @onclick="Cancel"
+					        class="fro-button fro-button--secondary fro-button--no-min-width fro-button--small">
+						Nein
+					</button>
+					<button @onclick="Submit" style="background-color: orange;"
+					        class="fro-button fro-button--primary fro-button--no-min-width fro-button--small">
+						Ja
+					</button>
+				</footer>
+			</div>
+		}
+	</DialogContent>
+</MudDialog>
+
+@code {
+	private bool _isDialogOpen = true;
+    [CascadingParameter] MudDialogInstance MudDialog { get; set; }
+
+    [Parameter]
+    public string Message { get; set; }
+
+    private string _endpoint = string.Empty;
+    private string _title = string.Empty;
+
+    protected override Task OnInitializedAsync()
+    {
+	    return Task.CompletedTask;
+    }
+
+    private async Task Submit()
+    {
+	    await InvokeAsync(StateHasChanged);
+        MudDialog.Close(DialogResult.Ok(true));
+    }
+
+    private async Task Cancel()
+    {
+	    _isDialogOpen = false;
+		MudDialog.StateHasChanged();
+		MudDialog.Dispose();
+	    await InvokeAsync(StateHasChanged);
+        MudDialog.Cancel();
+    }
+}
